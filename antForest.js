@@ -20,7 +20,7 @@ var RET_ERR_INVALID_RETRY_TIMES = -5;
 var RET_ERR_ENTER_FOREST_FAILED = -6;
 var ERR_RET_GET_CAPTURE_SCREEN_FAILED = -7;
 
-var RET_ERR_INVALID_ENERGY_NUM = -10;
+var RET_ERR_INVALID_ENERGY_NUM = -10; // 能量球个数数量设置错误
 var RET_ERR_OVER_MAX_COLLECT_TIMES = -11;
 var RET_ERR_NOT_FIND_LOOPUP_MORE_FRIEND = -12;
 var RET_ERR_ENTER_FRIEND_RANKING_LIST_FAILED = -13;
@@ -315,6 +315,51 @@ function collect_energy (max_energy_num) {
       energy_button = className("android.widget.Button").descContains("收集能量").findOne(1000);
     }
   } else {
+    sleep(2000);
+    // 由于新版布局更改，改为按颜色在可收集的能量球范围中来查找
+    var point = images.findColorInRegion(
+      captureScreen(), // image
+      "#9fec15",  // color
+      150, // x
+      450,  // y
+      device.width - 150 * 2, // width
+      450,  // height
+      4 // threshold
+    );
+    if (point) {
+      toastLog("找到能量球，坐标为(" + point.x + ", " + point.y + ")");
+    } else {
+      toastLog("当前页没有找到能量球");
+      sleep(2000);
+      var energy_button = className("android.widget.TextView").text("找能量").findOne(1000);
+      var energy_button2 = className("android.widget.Button").text("找能量").findOne(1000);
+      var energy_button3 = className("android.widget.ImageView").text("找能量").findOne(1000);
+      var energy_button4 = className("android.view.View").text("找能量").findOne(1000);
+      var energy_button5 = className("android.widget.TextView").desc("找能量").findOne(1000);
+      var energy_button6 = className("android.widget.Button").desc("找能量").findOne(1000);
+      var energy_button7 = className("android.widget.ImageView").desc("找能量").findOne(1000);
+      var energy_button8 = className("android.view.View").desc("找能量").findOne(1000);
+      var energy_button9 = className("android.widget.TextView").descContains("找能量").findOne(1000);
+      var energy_button10 = className("android.widget.Button").descContains("找能量").findOne(1000);
+      var energy_button11 = className("android.widget.ImageView").descContains("找能量").findOne(1000);
+      var energy_button12 = className("android.view.View").descContains("找能量").findOne(1000);
+      toastLog(
+        "1 = " + energy_button +
+        "2 = " + energy_button2 + " 3 = " + energy_button3 + " 4 = " + energy_button4 + 
+        "5 = " + energy_button5 + " 6 = " + energy_button6 + " 7 = " + energy_button7 +
+        "8 = " + energy_button8 + " 9 = " + energy_button9 + " 10 = " + energy_button10 +
+        "11 = " + energy_button11 + " 12 = " + energy_button12
+      );
+      if (energy_button4) {
+        DUMP_OUT_VERBOSE("获取到控件");
+        click(energy_button4.bounds().centerX() + 50, energy_button4.bounds().centerY() + 50);
+        return collect_energy(5);
+      } else {
+        DUMP_OUT_VERBOSE("没找到控件");
+      }
+    }
+
+    /*
     var barrier_free_view = className("android.view.View").idEndsWith("J_barrier_free").findOne(1000);
 
     barrier_free_view.children().forEach(function (child_button) {
@@ -342,6 +387,7 @@ function collect_energy (max_energy_num) {
         sleep(500);
       }
     });
+    */
   }/* #endif */
   return RET_SUCCES;
 }
@@ -747,13 +793,11 @@ function startup () {
   if (RET_ERR_OVER_MAX_COLLECT_TIMES == ret) {
     anti_forest_err_return(ret);
     // 不退出程序
-  }
-  else if (ret) {
+  } else if (ret) {
     anti_forest_err_return(ret);
     DUMP_OUT_VERBOSE("程序异常终止");
     return ret;
-  }
-  else {
+  } else {
     DUMP_OUT_VERBOSE('"收集自己的能量"完成');
   }
   DUMP_OUT_VERBOSE('"收集自己的能量" end...');
