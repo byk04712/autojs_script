@@ -2,9 +2,9 @@
  * @Author: Do not edit
  * @Date: 2020-12-16 22:21:14
  * @LastEditors: Do not edit
- * @LastEditTime: 2020-12-18 00:03:19
+ * @LastEditTime: 2020-12-22 22:15:13
  * @Description: 支付宝
- * @FilePath: /demo02/alipay.js
+ * @FilePath: /autojs_script/test.js
  */
 (function () {
   // 打开支付宝

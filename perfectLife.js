@@ -2,9 +2,9 @@
  * @Author: Andy.Q
  * @Date: 2020-12-21 23:30:59
  * @LastEditors: Do not edit
- * @LastEditTime: 2020-12-22 00:08:11
+ * @LastEditTime: 2020-12-22 22:15:03
  * @Description: 完美人生每天自动签到
- * @FilePath: /demo02/perfectLife.js
+ * @FilePath: /autojs_script/perfectLife.js
  */
 var RET_SUCCES = 0;
 var RET_FAILED = -1;
